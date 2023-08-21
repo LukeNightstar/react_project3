@@ -21,10 +21,8 @@ const DiaryItem = ({id, emotionId, content, date}) => {
         <div className="DiaryItem">
 
             {/*이미지 섹션*/}
-            <div
-                onClick={goDetail}
-                className={["img_section", `img_section_${emotionId}`].join(" ")}
-            >
+            <div onClick={goDetail}
+                 className={["img_section", `img_section_${emotionId}`].join(" ")}>
                 <img alt={`emotion${emotionId}`} src={getEmotionImgById(emotionId)}/>
             </div>
 
@@ -33,6 +31,7 @@ const DiaryItem = ({id, emotionId, content, date}) => {
                 <div className="date_wrapper">
                     {new Date(parseInt(date)).toLocaleDateString()}
                 </div>
+                {/*일기 내용은 25자까지만 표현*/}
                 <div className="content_wrapper">{content.slice(0, 25)}</div>
             </div>
 

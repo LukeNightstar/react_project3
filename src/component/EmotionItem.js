@@ -1,4 +1,5 @@
 import "./EmotionItem.css"
+import React from "react";
 
 // 감정 이미지 선택 기능 구현
 const EmotionItem = ({id, img, name, onClick, isSelected}) => {
@@ -17,4 +18,4 @@ const EmotionItem = ({id, img, name, onClick, isSelected}) => {
     );
 };
 
-export default EmotionItem;
+export default React.memo(EmotionItem);

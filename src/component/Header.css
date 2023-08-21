@@ -10,6 +10,10 @@
     display: flex;
 }
 
+.Header button {
+    font-family: "Nanum Pen Script";
+}
+
 .Header .header_title {
     width: 50%;
     font-size: 25px;

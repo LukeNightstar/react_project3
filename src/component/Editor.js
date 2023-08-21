@@ -1,5 +1,5 @@
 import "./Editor.css"
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {emotionList, getFormattedDate} from "../util";
 import Button from "./Button";
 import {useNavigate} from "react-router-dom";
@@ -37,12 +37,12 @@ const Editor = ({initData, onSubmit}) => {
     };
 
     // Emotion state
-    const handleChangeEmotion = (emotionId) => {
-        setState({
+    const handleChangeEmotion = useCallback((emotionId) => {
+        setState((state) => ({
             ...state,
             emotionId,
-        });
-    }
+        }));
+    }, []);
 
     // home 에서 받은 initdata를 state의 기본값으로 설정
     useEffect(() => {
