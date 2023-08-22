@@ -4,6 +4,12 @@ import emotion3 from "./img/emotion3.png";
 import emotion4 from "./img/emotion4.png";
 import emotion5 from "./img/emotion5.png";
 
+// 타이틀 설정
+export const setPageTitle = (title) => {
+    const titleElement = document.getElementsByTagName("title")[0];
+    titleElement.innerText = title;
+};
+
 // 이미지 데이터화
 export const getEmotionImgById = (emotionId) => {
     const targetEmotionId = String(emotionId);

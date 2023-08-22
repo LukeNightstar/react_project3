@@ -6,42 +6,31 @@ import New from "./pages/New";
 import Home from "./pages/Home";
 import React, {useEffect, useReducer, useRef, useState} from "react";
 
-// 목업
-const mockData = [
-    {
-        id: "mock1",
-        date: new Date().getTime() - 1,
-        content: "mock1",
-        emotionId: 1,
-    },
-    {
-        id: "mock2",
-        date: new Date().getTime() - 2,
-        content: "mock2",
-        emotionId: 2,
-    },
-    {
-        id: "mock3",
-        date: new Date().getTime() - 3,
-        content: "mock3",
-        emotionId: 3,
-    },
-];
-
 
 function reducer(state, action) {
     switch (action.type) {
-        case "CREATE":
-            return [action.data, ...state];
-        case "UPDATE":
-            return state.map((it) =>
-                String(it.id) === String(action.data.id) ? {...action.data} : it);
-        case "DELETE":
-            return state.filter((it) => String(it.id) !== String(action.targetId));
-        case "INIT":
+        case "INIT": {
             return action.data;
-        default:
+        }
+        case "CREATE": {
+            const newState = [action.data, ...state];
+            localStorage.setItem("diary", JSON.stringify(newState));
+            return newState;
+        }
+        case "UPDATE": {
+            const newState = state.map((it) =>
+                String(it.id) === String(action.data.id) ? {...action.data} : it);
+            localStorage.setItem("diary", JSON.stringify(newState));
+            return newState;
+        }
+        case "DELETE":{
+            const newState = state.filter((it) => String(it.id) !== String(action.targetId));
+            localStorage.setItem("diary", JSON.stringify(newState));
+            return newState;
+        }
+        default: {
             return state;
+        }
     }
 }
 
@@ -52,12 +41,22 @@ function App() {
     const [data, dispatch] = useReducer(reducer, []);
     const idRef = useRef(0);
 
-    // 초기 값 설정, 목 데이터 호출
+    // 로컬 데이터 불러오기
     useEffect(() => {
-        dispatch({
-            type: "INIT",
-            data: mockData,
-        });
+        const rawData = localStorage.getItem("diary");
+        if (!rawData) {
+            setIsDataLoaded(true);
+            return;
+        }
+        const localData = JSON.parse(rawData);
+        if (localData.length === 0) {
+            setIsDataLoaded(true);
+            return;
+        }
+        // 일기 추가 시 가장 큰값을 기준으로 추가하여 중복 방지
+        localData.sort((a, b) => Number(b.id) - Number(a.id));
+        idRef.current = localData[0].id + 1;
+        dispatch({type: "INIT", data: localData});
         setIsDataLoaded(true);
     }, []);
 

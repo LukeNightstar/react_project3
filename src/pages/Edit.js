@@ -3,8 +3,9 @@ import Button from "../component/Button";
 import Editor from "../component/Editor";
 import {useNavigate, useParams} from "react-router-dom";
 import useDiary from "../hooks/useDiary";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {DiaryDispatchContext} from "../App";
+import {setPageTitle} from "../util";
 
 const Edit = () => {
 
@@ -12,6 +13,11 @@ const Edit = () => {
     const data = useDiary(id);
     const navigate = useNavigate();
 
+    // 수정 페이지 제목
+    useEffect(() => {
+        setPageTitle(`${id}번 일기 수정하기`)
+    }, []);
+    
     const goBack = () => {
         navigate(-1);
     };
